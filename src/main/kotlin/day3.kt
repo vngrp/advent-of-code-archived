@@ -4,15 +4,16 @@ typealias BitMap = List<List<Bit>>
 
 fun main() {
     fun puzzle1(input: BitMap): Int {
-        val rowLength = input.first().size
-        val gamma = (0 until rowLength).map { index -> mostCommonBitAt(index, input) }
+        val rowLength = 0 until input.first().size
+        val gamma = rowLength.map { index -> mostCommonBit(index, input) }
         val epsilon = gamma.map { ! it }
 
         return gamma.toInt() * epsilon.toInt()
     }
+
     fun puzzle2(input: BitMap): Int {
-        val oxygenGeneratorRating = findRating(input, ::mostCommonBitAt)
-        val co2ScrubberRating = findRating(input, ::leastCommonBitAt)
+        val oxygenGeneratorRating = findRating(input, ::mostCommonBit)
+        val co2ScrubberRating = findRating(input, ::leastCommonBit)
 
         return oxygenGeneratorRating * co2ScrubberRating
     }
@@ -28,13 +29,8 @@ fun main() {
     println(puzzle2(input))
 }
 
-fun mostCommonBitAt(index: Int, input: BitMap): Bit {
-    return input.count { it[index] } >= input.size.ceilDiv(2)
-}
-
-fun leastCommonBitAt(index: Int, input: BitMap): Bit {
-    return input.count { ! it[index] } > input.size.div(2)
-}
+fun mostCommonBit(index: Int, input: BitMap): Bit = !leastCommonBit(index, input)
+fun leastCommonBit(index: Int, input: BitMap): Bit = input.count { ! it[index] } > input.size.div(2)
 
 fun findRating(
     input: BitMap,
