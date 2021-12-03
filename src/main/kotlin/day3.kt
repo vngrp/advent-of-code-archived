@@ -4,7 +4,8 @@ typealias BitMap = List<List<Bit>>
 
 fun main() {
     fun puzzle1(input: BitMap): Int {
-        val gamma = (0 until input[0].size).map { index -> mostCommonBitAt(index, input) }
+        val rowLength = input.first().size
+        val gamma = (0 until rowLength).map { index -> mostCommonBitAt(index, input) }
         val epsilon = gamma.map { ! it }
 
         return gamma.toInt() * epsilon.toInt()
