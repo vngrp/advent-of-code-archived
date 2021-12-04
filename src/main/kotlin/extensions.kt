@@ -1,10 +1,11 @@
 import java.io.File
 import java.lang.IllegalArgumentException
-import kotlin.math.ceil
 
 fun String.read(): List<String> = File("input/$this.txt").readLines()
+fun String.readTextTest(): String = File("input/$this-test.txt").readText()
 fun String.readTest(): List<String> = File("input/$this-test.txt").readLines()
 fun <T> String.read(block: (line: String) -> T): List<T> = read().map(block)
+fun String.readText(): String = File("input/$this.txt").readText()
 fun <T> String.readTest(block: (line: String) -> T): List<T> = readTest().map(block)
 
 fun <T : Any> assert(some: T, other: T) {
@@ -24,4 +25,18 @@ fun List<Boolean>.toInt(): Int {
         }
 }
 
-fun Int.ceilDiv(divider: Int): Int = ceil(this / divider.toDouble()).toInt()
+val <T> List<T>.tail: List<T>
+    get() = drop(1)
+
+val <T> List<T>.head: T
+    get() = first()
+
+fun <T> List<T>.replace(old: T, new: T): List<T> {
+    val index = indexOf(old)
+    if (index < 0) return this
+
+    val list = toMutableList()
+    list[index] = new
+
+    return list
+}

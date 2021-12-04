@@ -5,8 +5,8 @@ typealias BitMap = List<List<Bit>>
 fun main() {
     fun puzzle1(input: BitMap): Int {
         val rowLength = 0 until input.first().size
-        val gamma = rowLength.map { index -> mostCommonBit(index, input) }
-        val epsilon = gamma.map { ! it }
+        val gamma = rowLength.map { mostCommonBit(it, input) }
+        val epsilon = gamma.map { !it }
 
         return gamma.toInt() * epsilon.toInt()
     }
@@ -30,14 +30,16 @@ fun main() {
 }
 
 fun mostCommonBit(index: Int, input: BitMap): Bit = !leastCommonBit(index, input)
-fun leastCommonBit(index: Int, input: BitMap): Bit = input.count { ! it[index] } > input.size.div(2)
+fun leastCommonBit(index: Int, input: BitMap): Bit {
+    return input.count { ! it[index] } > input.size.div(2)
+}
 
 fun findRating(
     input: BitMap,
     block: (index: Int, input: BitMap) -> Bit,
     index: Int = 0
 ): Int {
-    if (input.size == 1) return input[0].toInt()
+    if (input.size == 1) return input.first().toInt()
     if (input.isEmpty()) throw IllegalArgumentException("Could not find the one.")
 
     val bit = block(index, input)
