@@ -22,8 +22,8 @@ fun main() {
     val input2 = "day5".read().let(::parseIntoLines)
     val input1 = input2.filterNot(::isDiagonalLine)
 
-    println(puzzle1(input2))
-    println(puzzle2(input1))
+    println(puzzle1(input1))
+    println(puzzle2(input2))
 }
 
 fun isDiagonalLine(line: Line): Boolean {
