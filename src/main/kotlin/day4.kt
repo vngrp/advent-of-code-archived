@@ -22,7 +22,7 @@ data class BingoBoard(val rows: List<List<BingoNumber>>, val columns: List<List<
         val rowBingo = rows.any { row -> row.all { it.marked } }
         val columnBingo = columns.any { column -> column.all { it.marked } }
 
-        return if (rowBingo || columnBingo) Bingo()!! else null
+        return if (rowBingo || columnBingo) Bingo() else null
     }
 }
 
