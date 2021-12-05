@@ -1,15 +1,22 @@
+import java.io.File
 
 typealias Point = Pair<Int, Int>
 data class Line(val points: List<Point>)
 
+/**
+ * Credits:
+ * Print a grid: https://github.com/SebastianAigner/advent-of-code-2021/blob/master/src/main/kotlin/Day05.kt
+ */
 fun main() {
-    fun puzzle1(lines: List<Line>): Int =
-        lines
+    fun puzzle1(lines: List<Line>): Int {
+        return lines
             .flatMap { it.points }
             .groupingBy { it }
             .eachCount()
+            .also(::printAndSaveGrid)
             .filter { it.value >= 2 }
             .count()
+    }
 
     fun puzzle2(lines: List<Line>): Int = puzzle1(lines)
 
@@ -88,4 +95,26 @@ private fun parseIntoLines(input: List<String>): List<Line> {
     }
 }
 
+private fun drawGrid(points: Map<Point, Int>): String {
+    val grid = Array(points.keys.maxOf { it.second } + 1) {
+        Array(points.keys.maxOf { it.first } + 1) {
+            '.'
+        }
+    }
+
+    for ((point, count) in points) {
+        grid[point.second][point.first] = (count + 48).toChar() // Ascii
+    }
+
+    return grid.joinToString("\n") {
+        it.joinToString("")
+    }
+}
+
+private fun printAndSaveGrid(points: Map<Point, Int>) {
+    val grid = drawGrid(points)
+
+    println(grid)
+    File("output/day5.txt").writeText(drawGrid(points))
+}
 
