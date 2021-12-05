@@ -13,23 +13,30 @@ fun main() {
 
     fun puzzle2(lines: List<Line>): Int = puzzle1(lines)
 
-    val test = "day5"
-                 .readTest()
-                 .let(::parseIntoLines)
+    val test2 = "day5".readTest().let(::parseIntoLines)
+    val test1 = test2.filterNot(::isDiagonalLine)
 
-    assert(puzzle1(test), 5)
-    assert(puzzle2(test), 12)
+    assert(puzzle1(test1), 5)
+    assert(puzzle2(test2), 12)
 
-    val input = "day5".read().let(::parseIntoLines)
+    val input2 = "day5".read().let(::parseIntoLines)
+    val input1 = input2.filterNot(::isDiagonalLine)
 
-    println(puzzle1(input))
-    println(puzzle2(input))
+    println(puzzle1(input2))
+    println(puzzle2(input1))
 }
 
-fun isDiagonalLine(from: Point, to: Point): Boolean = from.first != to.first && from.second != to.second
-fun isHorizontalLine(from: Point, to: Point): Boolean = from.second == to.second
+fun isDiagonalLine(line: Line): Boolean {
+    val from = line.points.first()
+    val to = line.points.last()
 
-fun drawLine(line: Pair<Point, Point>): Line {
+    return from.first != to.first && from.second != to.second
+}
+
+fun isHorizontalLine(from: Point, to: Point): Boolean = from.second == to.second
+fun isVerticalLine(from: Point, to: Point): Boolean = from.first == to.first
+
+fun drawLine(from: Point, to: Point): Line {
     fun drawHorizontalLine(from: Int, to: Int, y: Int): Line {
         val range = if (to > from) (from..to) else (to..from)
         val points = range.map { x -> Point(x, y) }
@@ -46,24 +53,27 @@ fun drawLine(line: Pair<Point, Point>): Line {
         val (x1, y1) = from
         val (x2, y2) = to
 
-        var y = y1
-        val points = if (y1 > y2) {
-            (x1..x2).map { x ->
-                Point(x, y--)
-            }
-        } else {
-            (x1..x2).map { x ->
-                Point(x, y++)
-            }
+        /**
+         * 0, 0 -> 8, 8
+         * 8, 0 -> 0, 8
+         * 0, 8 -> 8, 0
+         * 8, 8 -> 0, 0
+         */
+        val points = when {
+            x1 < x2 && y1 < y2 -> (x1..x2).mapIndexed { i, x -> Point(x, y1 + i)}
+            x1 > x2 && y1 < y2 -> (x1.downTo(x2)).mapIndexed { i, x -> Point(x, y1 + i)}
+            x1 < x2 && y1 > y2 -> (x1..x2).mapIndexed { i, x -> Point(x, y1 - i)}
+            x1 > x2 && y1 > y2 -> (x1.downTo(x2)).mapIndexed { i, x -> Point(x, y1 - i)}
+            else -> throw Error("Horizontal or vertical line drawn as diagonal.")
         }
+
         return Line(points)
     }
 
-    val (from, to) = line
     return when {
-        // isDiagonalLine(from, to) -> drawDiagonalLine(from, to)
+        isVerticalLine(from, to) -> drawVerticalLine(from.second, to.second, from.first)
         isHorizontalLine(from, to) -> drawHorizontalLine(from.first, to.first, from.second)
-        else -> drawVerticalLine(from.second, to.second, from.first)
+        else -> drawDiagonalLine(from, to)
     }
 }
 
@@ -74,21 +84,8 @@ private fun parseIntoLines(input: List<String>): List<Line> {
         val from = left.chop(",") { it.toInt() }
         val to = right.chop(",") { it.toInt() }
 
-        from to to
-        if (to.first > from.first || to.second > from.second) to to from
-        else from to to
-
-//        if (isDiagonalLine(from, to)) {
-//            if (to.first > from.first) to to from
-//            else from to to
-//        }
-//        else {
-//            if (to.first > from.first || to.second > from.second) to to from
-//            else from to to
-//        }
+        drawLine(from, to)
     }
-     .filterNot { (from, to) -> isDiagonalLine(from, to) }
-     .map(::drawLine)
 }
 
 
