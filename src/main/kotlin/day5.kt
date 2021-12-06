@@ -1,6 +1,8 @@
 import java.io.File
 
-typealias Point = Pair<Int, Int>
+data class Point(val x: Int, val y: Int) {
+    constructor(pair: Pair<Int, Int>) : this(pair.first, pair.second)
+}
 data class Line(val points: List<Point>)
 
 /**
@@ -37,11 +39,11 @@ fun isDiagonalLine(line: Line): Boolean {
     val from = line.points.first()
     val to = line.points.last()
 
-    return from.first != to.first && from.second != to.second
+    return from.x != to.x && from.y != to.y
 }
 
-fun isHorizontalLine(from: Point, to: Point): Boolean = from.second == to.second
-fun isVerticalLine(from: Point, to: Point): Boolean = from.first == to.first
+fun isHorizontalLine(from: Point, to: Point): Boolean = from.y == to.y
+fun isVerticalLine(from: Point, to: Point): Boolean = from.x == to.x
 
 fun drawLine(from: Point, to: Point): Line {
     fun drawHorizontalLine(from: Int, to: Int, y: Int): Line {
@@ -78,8 +80,8 @@ fun drawLine(from: Point, to: Point): Line {
     }
 
     return when {
-        isVerticalLine(from, to) -> drawVerticalLine(from.second, to.second, from.first)
-        isHorizontalLine(from, to) -> drawHorizontalLine(from.first, to.first, from.second)
+        isVerticalLine(from, to) -> drawVerticalLine(from.y, to.y, from.x)
+        isHorizontalLine(from, to) -> drawHorizontalLine(from.x, to.x, from.y)
         else -> drawDiagonalLine(from, to)
     }
 }
@@ -91,19 +93,22 @@ private fun parseIntoLines(input: List<String>): List<Line> {
         val from = left.chop(",") { it.toInt() }
         val to = right.chop(",") { it.toInt() }
 
-        drawLine(from, to)
+        drawLine(Point(from), Point(to))
     }
 }
 
 private fun drawGrid(points: Map<Point, Int>): String {
-    val grid = Array(points.keys.maxOf { it.second } + 1) {
-        Array(points.keys.maxOf { it.first } + 1) {
+    val maxWidth = points.keys.maxOf { it.x } + 1
+    val maxHeight = points.keys.maxOf { it.y } + 1
+
+    val grid = Array(maxHeight) {
+        Array(maxWidth) {
             '.'
         }
     }
 
     for ((point, count) in points) {
-        grid[point.second][point.first] = (count + 48).toChar() // Ascii
+        grid[point.y][point.x] = (count + 48).toChar() // Ascii
     }
 
     return grid.joinToString("\n") {

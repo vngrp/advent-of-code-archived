@@ -38,3 +38,9 @@ fun <T> List<T>.replace(old: T, new: T): List<T> {
 
     return list
 }
+
+fun Map<Int, Long>.merge(other: Map<Int, Long>): Map<Int, Long> {
+    return (asSequence() + other.asSequence())
+        .groupBy({ it.key }, { it.value })
+        .mapValues { it.value.sum() }
+}
