@@ -44,3 +44,6 @@ fun Map<Int, Long>.merge(other: Map<Int, Long>): Map<Int, Long> {
         .groupBy({ it.key }, { it.value })
         .mapValues { it.value.sum() }
 }
+
+fun List<Int>.min() = minOrNull()!!
+fun List<Int>.max() = maxOrNull()!!
