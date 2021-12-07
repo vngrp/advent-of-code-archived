@@ -30,4 +30,4 @@ fun fuelCost(positions: List<Int>, calculate: (position: Int) -> Int): Int {
 }
 
 fun equalFuelCost(diff: Int): Int = diff
-fun incrementingFuelCost(diff: Int): Int = (0..diff).fold(0, Int::plus)
+fun incrementingFuelCost(diff: Int): Int = (0..diff).reduce(Int::plus)
