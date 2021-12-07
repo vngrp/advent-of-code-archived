@@ -26,33 +26,24 @@ data class BingoBoard(val rows: List<List<BingoNumber>>, val columns: List<List<
     }
 }
 
-fun main() {
-    fun puzzle1(boards: List<BingoBoard>, drawnNumbers: List<BingoNumber>): Int {
-        val (board, numberThatGaveBingo) = findBingoBoard(boards, drawnNumbers, ::quickestBoardStrategy)
+class Day4: Day {
+    override val examplePuzzle1 = 4512
+    override val examplePuzzle2 = 1924
+
+    override fun puzzle1(lines: List<String>): Int {
+        val drawnNumbers = lines.first().split(",").map { BingoNumber(it.toInt()) }
+        val (board, numberThatGaveBingo) = findBingoBoard(setupBoards(lines), drawnNumbers, ::quickestBoardStrategy)
         val sumOfUnmarked = calculateSumOfUnmarkedNumbers(board)
 
         return sumOfUnmarked * numberThatGaveBingo.value
     }
-    fun puzzle2(boards: List<BingoBoard>, drawnNumbers: List<BingoNumber>): Int {
-        val (board, numberThatGaveBingo) = findBingoBoard(boards, drawnNumbers, ::slowestBoardStrategy)
+    override fun puzzle2(lines: List<String>): Int {
+        val drawnNumbers = lines.first().split(",").map { BingoNumber(it.toInt()) }
+        val (board, numberThatGaveBingo) = findBingoBoard(setupBoards(lines), drawnNumbers, ::slowestBoardStrategy)
         val sumOfUnmarked = calculateSumOfUnmarkedNumbers(board)
 
         return sumOfUnmarked * numberThatGaveBingo.value
     }
-
-    val testLines = "day4".readTest()
-    val testDrawn = testLines.first().split(",").map { BingoNumber(it.toInt()) }
-    val testBoards = setupBoards(testLines)
-
-    assert(puzzle1(testBoards, testDrawn), 4512)
-    assert(puzzle2(testBoards, testDrawn), 1924)
-
-    val lines = "day4".read()
-    val drawn = lines.first().split(",").map { BingoNumber(it.toInt()) }
-    val boards = setupBoards(lines)
-
-    println(puzzle1(boards, drawn))
-    println(puzzle2(boards, drawn))
 }
 
 fun quickestBoardStrategy(boards: List<BingoBoard>): BingoBoard? {

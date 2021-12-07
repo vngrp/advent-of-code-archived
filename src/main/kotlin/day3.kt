@@ -2,8 +2,12 @@
 typealias Bit = Boolean
 typealias BitMap = List<List<Bit>>
 
-fun main() {
-    fun puzzle1(input: BitMap): Int {
+class Day3: Day {
+    override val examplePuzzle1 = 198
+    override val examplePuzzle2 = 230
+
+    override fun puzzle1(lines: List<String>): Int {
+        val input = lines.map { it.map { char -> char == '1' } }
         val rowLength = 0 until input.first().size
         val gamma = rowLength.map { mostCommonBit(it, input) }
         val epsilon = gamma.map { !it }
@@ -11,22 +15,13 @@ fun main() {
         return gamma.toInt() * epsilon.toInt()
     }
 
-    fun puzzle2(input: BitMap): Int {
+    override fun puzzle2(lines: List<String>): Int {
+        val input = lines.map { it.map { char -> char == '1' } }
         val oxygenGeneratorRating = findRating(input, ::mostCommonBit)
         val co2ScrubberRating = findRating(input, ::leastCommonBit)
 
         return oxygenGeneratorRating * co2ScrubberRating
     }
-
-    val test = "day3".readTest { it.map { char -> char == '1' } }
-
-    assert(puzzle1(test), 198)
-    assert(puzzle2(test), 230)
-
-    val input = "day3".read { it.map { char -> char == '1' } }
-
-    println(puzzle1(input))
-    println(puzzle2(input))
 }
 
 fun mostCommonBit(index: Int, input: BitMap): Bit = !leastCommonBit(index, input)

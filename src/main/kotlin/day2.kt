@@ -3,9 +3,13 @@ data class Command(val direction: String, val amount: Int)
 data class AimedPosition(val depth: Int, val horizontal: Int, val aim: Int)
 data class Position(val depth: Int, val horizontal: Int)
 
-fun main() {
-    fun puzzle1(commands: List<Command>): Int {
-        return commands
+class Day2: Day {
+    override val examplePuzzle1 = 150
+    override val examplePuzzle2 = 900
+
+    override fun puzzle1(lines: List<String>): Int {
+        return lines
+                .map(::toCommand)
                 .fold(Position(0, 0)) { position, (instruction, amount) ->
                     when (Direction.valueOf(instruction.uppercase())) {
                         Direction.UP -> position.copy(depth = position.depth - amount)
@@ -17,8 +21,9 @@ fun main() {
                     it.depth * it.horizontal
                 }
     }
-    fun puzzle2(commands: List<Command>): Int {
-        return commands
+    override fun puzzle2(lines: List<String>): Int {
+        return lines
+                .map(::toCommand)
                 .fold(AimedPosition(0, 0, 0)) { values, (direction, amount) ->
                     when (Direction.valueOf(direction.uppercase())) {
                         Direction.UP -> values.copy(aim = values.aim - amount)
@@ -35,19 +40,9 @@ fun main() {
                 }
     }
 
-    val test = "day2".readTest {
-        val (instruction, amount) = it.split(' ')
-        Command(instruction, amount.toInt())
+    private fun toCommand(line: String): Command {
+        val (instruction, amount) = line.split(' ')
+
+        return Command(instruction, amount.toInt())
     }
-
-    check(puzzle1(test) == 150)
-    check(puzzle2(test) == 900)
-
-    val commands = "day2".read {
-        val (instruction, amount) = it.split(' ')
-        Command(instruction, amount.toInt())
-    }
-
-    println(puzzle1(commands))
-    println(puzzle2(commands))
 }

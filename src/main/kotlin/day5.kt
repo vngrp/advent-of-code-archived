@@ -9,30 +9,31 @@ data class Line(val points: List<Point>)
  * Credits:
  * Print a grid: https://github.com/SebastianAigner/advent-of-code-2021/blob/master/src/main/kotlin/Day05.kt
  */
-fun main() {
-    fun puzzle1(lines: List<Line>): Int {
+class Day5: Day {
+    override val examplePuzzle1 = 5
+    override val examplePuzzle2 = 12
+
+    override fun puzzle1(lines: List<String>): Int {
         return lines
+            .let(::parseIntoLines)
+            .filterNot(::isDiagonalLine)
             .flatMap { it.points }
             .groupingBy { it }
             .eachCount()
-            .also(::printAndSaveGrid)
             .filter { it.value >= 2 }
             .count()
     }
 
-    fun puzzle2(lines: List<Line>): Int = puzzle1(lines)
-
-    val test2 = "day5".readTest().let(::parseIntoLines)
-    val test1 = test2.filterNot(::isDiagonalLine)
-
-    assert(puzzle1(test1), 5)
-    assert(puzzle2(test2), 12)
-
-    val input2 = "day5".read().let(::parseIntoLines)
-    val input1 = input2.filterNot(::isDiagonalLine)
-
-    println(puzzle1(input1))
-    println(puzzle2(input2))
+    override fun puzzle2(lines: List<String>): Int {
+        return lines
+            .let(::parseIntoLines)
+            .flatMap { it.points }
+            .groupingBy { it }
+            .eachCount()
+            .also(::saveGrid)
+            .filter { it.value >= 2 }
+            .count()
+    }
 }
 
 fun isDiagonalLine(line: Line): Boolean {
@@ -116,10 +117,5 @@ private fun drawGrid(points: Map<Point, Int>): String {
     }
 }
 
-private fun printAndSaveGrid(points: Map<Point, Int>) {
-    val grid = drawGrid(points)
-
-    println(grid)
-    File("output/day5.txt").writeText(drawGrid(points))
-}
+private fun saveGrid(points: Map<Point, Int>) = File("output/day5.txt").writeText(drawGrid(points))
 

@@ -1,12 +1,17 @@
 
-fun main() {
-    fun puzzle1(input: List<Int>): Int {
+class Day6: Day {
+    override val examplePuzzle1 = 5934
+    override val examplePuzzle2 = 26984457539
+
+    override fun puzzle1(lines: List<String>): Int {
+        val input = lines.map { it.split(",") }.flatten().map { it.toInt() }
         return (1..80).fold(input) { acc, _ ->
             acc.flatMap(::reproduce)
         }.size
     }
 
-    fun puzzle2(input: List<Int>): Long {
+    override fun puzzle2(lines: List<String>): Long {
+        val input = lines.map { it.split(",") }.flatten().map { it.toInt() }
         val map = input.groupingBy { it }
                        .eachCount()
                        .mapValues { it.value.toLong() }
@@ -21,16 +26,6 @@ fun main() {
                 acc + value
             }
     }
-
-    val test = "day6".readTest { it.split(",") }.flatten().map { it.toInt() }
-
-    assert(puzzle1(test), 5934)
-    assert(puzzle2(test), 26984457539)
-
-    val input = "day6".read() { it.split(",") }.flatten().map { it.toInt() }
-
-    println(puzzle1(input))
-    println(puzzle2(input))
 }
 
 fun reproduce(fish: Int): List<Int> {

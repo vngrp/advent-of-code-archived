@@ -1,5 +1,6 @@
 import java.io.File
 import java.lang.IllegalArgumentException
+import java.util.*
 
 fun String.read(): List<String> = File("input/$this.txt").readLines()
 fun String.readTest(): List<String> = File("input/$this-test.txt").readLines()
@@ -47,3 +48,20 @@ fun Map<Int, Long>.merge(other: Map<Int, Long>): Map<Int, Long> {
 
 fun List<Int>.min() = minOrNull()!!
 fun List<Int>.max() = maxOrNull()!!
+
+fun String.uppercaseFirst() = replaceFirstChar {
+    if (it.isLowerCase()) it.titlecase(Locale.getDefault()) else it.toString()
+}
+
+// 😈
+fun evalDay(filename: String): Day {
+    val clazz = try {
+        Class.forName(filename)?.getDeclaredConstructor()?.newInstance() ?: Template()
+    } catch (error: ClassNotFoundException) {
+        Template()
+    }
+    return when (clazz) {
+        is Day -> clazz
+        else -> Template()
+    }
+}
