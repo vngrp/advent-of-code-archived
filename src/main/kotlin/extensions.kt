@@ -1,11 +1,4 @@
-import java.io.File
 import java.lang.IllegalArgumentException
-import java.util.*
-
-fun String.read(): List<String> = File("input/$this.txt").readLines()
-fun String.readTest(): List<String> = File("input/$this-test.txt").readLines()
-fun <T> String.read(block: (line: String) -> T): List<T> = read().map(block)
-fun <T> String.readTest(block: (line: String) -> T): List<T> = readTest().map(block)
 
 fun <T : Any> assert(some: T, other: T) {
     if (some != other) {
@@ -19,7 +12,7 @@ fun <T> String.chop(delimiter: String, transform: (from: String) -> T): Pair<T, 
     return transform(from) to transform(to)
 }
 
-fun List<Boolean>.toInt(): Int {
+fun List<Bit>.toInt(): Int {
     return this
         .map {
             if (it) '1' else '0'
@@ -49,19 +42,42 @@ fun Map<Int, Long>.merge(other: Map<Int, Long>): Map<Int, Long> {
 fun List<Int>.min() = minOrNull()!!
 fun List<Int>.max() = maxOrNull()!!
 
-fun String.uppercaseFirst() = replaceFirstChar {
-    if (it.isLowerCase()) it.titlecase(Locale.getDefault()) else it.toString()
+fun String.sorted() = toSortedSet().joinToString("")
+
+fun Char.toAsciiInt() = Character.getNumericValue(this)
+
+fun <T> List<T>.getAdjacents(point: Point, width: Int, includeDiagonal: Boolean = false): List<T> {
+    val (x, y) = point
+
+    val diagonals = listOfNotNull(
+        this.getAt(x - 1, y - 1, width),
+        this.getAt(x + 1, y - 1, width),
+        this.getAt(x - 1, y + 1, width),
+        this.getAt(x + 1, y + 1, width),
+    )
+    val horizontalVerticals = listOfNotNull(
+        this.getAt(x, y - 1, width),
+        this.getAt(x - 1, y, width),
+        this.getAt(x + 1, y, width),
+        this.getAt(x, y + 1, width),
+    )
+
+    return if (includeDiagonal) {
+        diagonals + horizontalVerticals
+    } else {
+        diagonals
+    }
 }
 
-// 😈
-fun evalDay(filename: String): Day {
-    val clazz = try {
-        Class.forName(filename)?.getDeclaredConstructor()?.newInstance() ?: Template()
-    } catch (error: ClassNotFoundException) {
-        Template()
-    }
-    return when (clazz) {
-        is Day -> clazz
-        else -> Template()
+fun <T> List<T>.getAt(x: Int, y: Int, width: Int): T? {
+    return if (x < 0 || x >= width || y < 0 || y >= width) {
+        null
+    } else {
+        this[y * width + x]
     }
 }
+
+fun <T> Int.repeat(initialState: T, fold: (acc: T) -> T): T {
+    return (0 until this).fold(initialState) { acc, _ -> fold(acc) }
+}
+

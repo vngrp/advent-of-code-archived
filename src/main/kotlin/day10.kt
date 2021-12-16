@@ -1,5 +1,5 @@
 
-class Template: Day {
+class Day10: Day {
     override val examplePuzzle1 = 0
     override val examplePuzzle2 = 0
 

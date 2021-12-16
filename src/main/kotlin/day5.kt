@@ -117,5 +117,8 @@ private fun drawGrid(points: Map<Point, Int>): String {
     }
 }
 
-private fun saveGrid(points: Map<Point, Int>) = File("output/day5.txt").writeText(drawGrid(points))
+private fun saveGrid(points: Map<Point, Int>) {
+    // println(drawGrid(points))
+    File("output/day5.txt").writeText(drawGrid(points))
+}
 
