@@ -1,13 +1,19 @@
-import aoc2021.Bit
-import aoc2021.Point
-import java.lang.IllegalArgumentException
-import java.time.LocalTime
+package com.vngrp
 
-fun <T : Any> assert(some: T, other: T) {
-    if (some != other) {
-        throw IllegalArgumentException("Failed to assert that $some equals $other.")
-    }
-}
+import com.vngrp.aoc2021.puzzles.Bit
+import com.vngrp.aoc2021.puzzles.Point
+import java.io.File
+import kotlin.reflect.KClass
+import kotlinx.datetime.Clock
+import kotlinx.datetime.TimeZone
+import kotlinx.datetime.toLocalDateTime
+
+/**
+ * Extension functions for parsing files into useful data structures.
+ * Credits: Heavily inspired by
+ * https://github.com/Zordid/adventofcode-kotlin-2022/blob/21e3e3a432a0bf4a6b56b54e1d8bd87be5f4a7cb/src/main/kotlin/AdventOfCode.kt
+ */
+fun File.parseInts() = readLines().mapNotNull { """(-?\d+)""".toRegex().matchEntire(it)?.groups?.get(1)?.value?.toInt() }
 
 fun <T> String.chop(delimiter: String, transform: (from: String) -> T): Pair<T, T> {
     val (from, to) = split(delimiter)
@@ -15,9 +21,9 @@ fun <T> String.chop(delimiter: String, transform: (from: String) -> T): Pair<T, 
     return transform(from) to transform(to)
 }
 
-operator fun Pair<LocalTime, LocalTime>.contains(time: LocalTime): Boolean {
-    return time.isAfter(first) && time.isBefore(second)
-}
+fun time() = Clock.System.now().toLocalDateTime(TimeZone.currentSystemDefault()).time
+fun Day<*>.input() = File("src/main/kotlin/aoc$year/input/day$day.txt")
+fun Day<*>.testInput() = File("src/main/kotlin/aoc$year/input/test-day$day.txt")
 
 fun List<Bit>.toInt(): Int {
     return this
@@ -88,3 +94,5 @@ fun <T> Int.repeat(initialState: T, fold: (acc: T) -> T): T {
     return (0 until this).fold(initialState) { acc, _ -> fold(acc) }
 }
 
+val KClass<AdventOfCode>.editions
+    get() = sealedSubclasses.mapNotNull { it.objectInstance }

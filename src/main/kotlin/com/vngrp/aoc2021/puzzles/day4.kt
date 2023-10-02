@@ -1,10 +1,13 @@
-package aoc2021
+package com.vngrp.aoc2021.puzzles
 
-import Day
-import replace
+import com.vngrp.Day
+import java.io.File
+import com.vngrp.replace
 
 class Bingo
 data class BingoNumber(val value: Int, val marked: Boolean = false)
+typealias BingoStrategy = (List<BingoBoard>) -> BingoBoard?
+typealias BoardsAndDrawnNumbers = Pair<List<String>, List<BingoNumber>>
 
 data class BingoBoard(val rows: List<List<BingoNumber>>, val columns: List<List<BingoNumber>>) {
     fun mark(number: BingoNumber): BingoBoard {
@@ -30,32 +33,45 @@ data class BingoBoard(val rows: List<List<BingoNumber>>, val columns: List<List<
     }
 }
 
-class Day4: Day {
-    override val examplePuzzle1 = 4512
-    override val examplePuzzle2 = 1924
+object Day4: Day<BoardsAndDrawnNumbers>(4, 2021) {
+    override fun parse(input: File): Pair<List<String>, List<BingoNumber>> = input
+        .readLines()
+        .let { lines ->
+            lines to lines
+                .first()
+                .split(",")
+                .map { BingoNumber(it.toInt()) }
+        }
 
-    override fun puzzle1(lines: List<String>): Int {
-        val drawnNumbers = lines.first().split(",").map { BingoNumber(it.toInt()) }
-        val (board, numberThatGaveBingo) = findBingoBoard(setupBoards(lines), drawnNumbers, ::quickestBoardStrategy)
-        val sumOfUnmarked = calculateSumOfUnmarkedNumbers(board)
 
-        return sumOfUnmarked * numberThatGaveBingo.value
-    }
-    override fun puzzle2(lines: List<String>): Int {
-        val drawnNumbers = lines.first().split(",").map { BingoNumber(it.toInt()) }
-        val (board, numberThatGaveBingo) = findBingoBoard(setupBoards(lines), drawnNumbers, ::slowestBoardStrategy)
-        val sumOfUnmarked = calculateSumOfUnmarkedNumbers(board)
+    override fun part1(input: BoardsAndDrawnNumbers) = 6//input(::quickestBoardStrategy)
+    override fun part2(input: BoardsAndDrawnNumbers) = 5//input(::slowestBoardStrategy)
 
-        return sumOfUnmarked * numberThatGaveBingo.value
-    }
+//    private fun playBingo(input: BingoStrategy): Int {
+//        val (board, numberThatGaveBingo) = findBingoBoard(
+//            setupBoards(input.first),
+//            input.second,
+//            ::slowestBoardStrategy
+//        )
+//        val sumOfUnmarked = calculateSumOfUnmarkedNumbers(board)
+//
+//        return sumOfUnmarked * numberThatGaveBingo.value
+//    }
+//
+//    override fun part1(input: BingoStrategy): Number {
+//        val (board, numberThatGaveBingo) = findBingoBoard(setupBoards(input.first), input.second, ::quickestBoardStrategy)
+//        val sumOfUnmarked = calculateSumOfUnmarkedNumbers(board)
+//
+//        return sumOfUnmarked * numberThatGaveBingo.value
+//    }
 }
 
-fun quickestBoardStrategy(boards: List<BingoBoard>): BingoBoard? {
-    return boards.find { it.check() is Bingo }
+fun quickestBoardStrategy(boards: List<BingoBoard>): BingoBoard {
+    return boards.first { it.check() is Bingo }
 }
 
-fun slowestBoardStrategy(boards: List<BingoBoard>): BingoBoard? {
-    return boards.singleOrNull { it.check() !is Bingo }
+fun slowestBoardStrategy(boards: List<BingoBoard>): BingoBoard {
+    return boards.first { it.check() !is Bingo }
 }
 
 fun calculateSumOfUnmarkedNumbers(board: BingoBoard): Int {
