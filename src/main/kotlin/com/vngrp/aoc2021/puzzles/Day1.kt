@@ -9,7 +9,7 @@ import com.vngrp.parseInts
  * Learning check: https://github.com/elizarov/AdventOfCode2021/blob/main/src/Day01.kt
  * Puzzle 2: https://github.com/SebastianAigner/advent-of-code-2021/blob/master/src/main/kotlin/Day01.kt
  */
-object Day1: Day<List<Int>>(1, 2020) {
+object Day1: Day<List<Int>>(1, 2021) {
     override fun parse(input: File) = input.parseInts()
 
     override fun part1(input: List<Int>) = input

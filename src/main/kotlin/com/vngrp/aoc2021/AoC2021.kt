@@ -3,7 +3,7 @@ package com.vngrp.aoc2021
 import com.vngrp.AdventOfCode2021
 import com.vngrp.aoc2021.puzzles.Day1
 
-object AdventOfCode : AdventOfCode2021 {
+object AoC2021 : AdventOfCode2021 {
     override fun saveChristmas() {
         Day1.solve(7, 5)
         //Day2.solve(150, 900)

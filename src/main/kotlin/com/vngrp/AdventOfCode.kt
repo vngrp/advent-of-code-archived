@@ -1,6 +1,8 @@
 package com.vngrp
 
+import com.vngrp.aoc2018.AoC2018
 import com.vngrp.aoc2018.puzzles.Day1
+import com.vngrp.aoc2021.AoC2021
 import java.io.File
 import kotlinx.datetime.LocalTime.Companion.parse
 
@@ -10,11 +12,13 @@ fun main() {
     if (time() in competitiveRange) {
         Day1.solve(3, 2)
     } else {
-        AdventOfCode::class
-            .editions
-            .forEach {
-                it.saveChristmas()
-            }
+        AoC2018.saveChristmas()
+        AoC2021.saveChristmas()
+//        AdventOfCode::class
+//            .editions
+//            .forEach {
+//                it.saveChristmas()
+//            }
     }
 }
 

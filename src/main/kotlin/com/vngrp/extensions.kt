@@ -22,9 +22,9 @@ fun <T> String.chop(delimiter: String, transform: (from: String) -> T): Pair<T, 
 fun time() = Clock.System.now().toLocalDateTime(TimeZone.currentSystemDefault()).time
 
 val Day<*>.input
-    get() = File("src/main/kotlin/aoc$year/input/day$day.txt")
+    get() = File("src/main/kotlin/com/vngrp/aoc$year/input/day$day.txt")
 val Day<*>.testInput
-    get() = File("src/main/kotlin/aoc$year/input/test-day$day.txt")
+    get() = File("src/main/kotlin/com/vngrp/aoc$year/input/test-day$day.txt")
 
 fun <T> List<T>.replace(old: T, new: T): List<T> {
     val index = indexOf(old)
