@@ -1,3 +1,8 @@
+package aoc2021
+
+import Day
+import sorted
+
 class Day8: Day {
     override val examplePuzzle1 = 26
     override val examplePuzzle2 = 61229

@@ -1,3 +1,7 @@
+package aoc2021
+
+import Day
+
 enum class Direction { UP, DOWN, FORWARD }
 data class Command(val direction: String, val amount: Int)
 data class AimedPosition(val depth: Int, val horizontal: Int, val aim: Int)

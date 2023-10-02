@@ -1,3 +1,7 @@
+package aoc2021
+
+import Day
+
 /**
  * Credits:
  * Learning check: https://github.com/elizarov/AdventOfCode2021/blob/main/src/Day01.kt

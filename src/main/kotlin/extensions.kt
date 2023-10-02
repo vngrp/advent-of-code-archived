@@ -1,4 +1,7 @@
+import aoc2021.Bit
+import aoc2021.Point
 import java.lang.IllegalArgumentException
+import java.time.LocalTime
 
 fun <T : Any> assert(some: T, other: T) {
     if (some != other) {
@@ -10,6 +13,10 @@ fun <T> String.chop(delimiter: String, transform: (from: String) -> T): Pair<T, 
     val (from, to) = split(delimiter)
 
     return transform(from) to transform(to)
+}
+
+operator fun Pair<LocalTime, LocalTime>.contains(time: LocalTime): Boolean {
+    return time.isAfter(first) && time.isBefore(second)
 }
 
 fun List<Bit>.toInt(): Int {

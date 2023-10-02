@@ -1,5 +1,7 @@
+package aoc2021
+
+import GDay
 import java.io.File
-import kotlin.properties.Delegates
 
 class Day13: GDay<Pair<List<Point>, List<Fold>>> {
     override val examplePuzzle1 = 0

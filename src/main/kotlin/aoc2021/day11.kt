@@ -1,4 +1,10 @@
+package aoc2021
+
+import GDay
+import getAdjacents
 import java.io.File
+import repeat
+import toAsciiInt
 
 var bigBoyCounter = 0
 

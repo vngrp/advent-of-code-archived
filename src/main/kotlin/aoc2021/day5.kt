@@ -1,3 +1,7 @@
+package aoc2021
+
+import Day
+import chop
 import java.io.File
 
 data class Point(val x: Int, val y: Int) {
@@ -70,10 +74,10 @@ fun drawLine(from: Point, to: Point): Line {
          * 8, 8 -> 0, 0
          */
         val points = when {
-            x1 < x2 && y1 < y2 -> (x1..x2).mapIndexed { i, x -> Point(x, y1 + i)}
-            x1 > x2 && y1 < y2 -> (x1.downTo(x2)).mapIndexed { i, x -> Point(x, y1 + i)}
-            x1 < x2 && y1 > y2 -> (x1..x2).mapIndexed { i, x -> Point(x, y1 - i)}
-            x1 > x2 && y1 > y2 -> (x1.downTo(x2)).mapIndexed { i, x -> Point(x, y1 - i)}
+            x1 < x2 && y1 < y2 -> (x1..x2).mapIndexed { i, x -> Point(x, y1 + i) }
+            x1 > x2 && y1 < y2 -> (x1.downTo(x2)).mapIndexed { i, x -> Point(x, y1 + i) }
+            x1 < x2 && y1 > y2 -> (x1..x2).mapIndexed { i, x -> Point(x, y1 - i) }
+            x1 > x2 && y1 > y2 -> (x1.downTo(x2)).mapIndexed { i, x -> Point(x, y1 - i) }
             else -> throw Error("Horizontal or vertical line drawn as diagonal.")
         }
 

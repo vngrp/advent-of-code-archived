@@ -1,4 +1,9 @@
+package aoc2021
+
+import Day
 import kotlin.math.abs
+import max
+import min
 
 class Day7: Day {
     override val examplePuzzle1 = 37

@@ -1,3 +1,7 @@
+package aoc2021
+
+import Day
+import merge
 
 class Day6: Day {
     override val examplePuzzle1 = 5934

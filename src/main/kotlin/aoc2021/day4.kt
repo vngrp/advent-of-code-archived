@@ -1,3 +1,7 @@
+package aoc2021
+
+import Day
+import replace
 
 class Bingo
 data class BingoNumber(val value: Int, val marked: Boolean = false)

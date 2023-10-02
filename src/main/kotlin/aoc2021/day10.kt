@@ -1,3 +1,6 @@
+package aoc2021
+
+import Day
 
 class Day10: Day {
     override val examplePuzzle1 = 0

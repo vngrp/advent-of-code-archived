@@ -1,3 +1,7 @@
+package aoc2021
+
+import Day
+import toInt
 
 typealias Bit = Boolean
 typealias BitMap = List<List<Bit>>
