@@ -2,10 +2,20 @@ package com.vngrp.aoc2021.puzzles
 
 import com.vngrp.Day
 import java.io.File
-import com.vngrp.toInt
 
 typealias Bit = Boolean
 typealias BitMap = List<List<Bit>>
+
+fun List<Bit>.toInt(): Int {
+    return this
+        .map {
+            if (it) '1' else '0'
+        }
+        .joinToString("")
+        .let {
+            Integer.parseInt(it, 2)
+        }
+}
 
 object Day3: Day<BitMap>(3, 2021) {
     override fun parse(input: File) = input.readLines().map { it.map { char -> char == '1' } }

@@ -6,16 +6,13 @@ plugins {
     application
 }
 
-kotlin {
-    jvmToolchain(17)
-}
-
 repositories {
     mavenCentral()
 }
 
 dependencies {
     implementation("org.jetbrains.kotlinx:kotlinx-datetime:0.4.1")
+    implementation("org.jetbrains.kotlinx:kotlinx-io-core:0.3.0")
 
     implementation(kotlin("reflect"))
     testImplementation(kotlin("test"))

@@ -1,7 +1,5 @@
 package com.vngrp
 
-import com.vngrp.aoc2021.puzzles.Bit
-import com.vngrp.aoc2021.puzzles.Point
 import java.io.File
 import kotlin.reflect.KClass
 import kotlinx.datetime.Clock
@@ -22,19 +20,11 @@ fun <T> String.chop(delimiter: String, transform: (from: String) -> T): Pair<T, 
 }
 
 fun time() = Clock.System.now().toLocalDateTime(TimeZone.currentSystemDefault()).time
-fun Day<*>.input() = File("src/main/kotlin/aoc$year/input/day$day.txt")
-fun Day<*>.testInput() = File("src/main/kotlin/aoc$year/input/test-day$day.txt")
 
-fun List<Bit>.toInt(): Int {
-    return this
-        .map {
-            if (it) '1' else '0'
-        }
-        .joinToString("")
-        .let {
-            Integer.parseInt(it, 2)
-        }
-}
+val Day<*>.input
+    get() = File("src/main/kotlin/aoc$year/input/day$day.txt")
+val Day<*>.testInput
+    get() = File("src/main/kotlin/aoc$year/input/test-day$day.txt")
 
 fun <T> List<T>.replace(old: T, new: T): List<T> {
     val index = indexOf(old)
@@ -58,29 +48,6 @@ fun List<Int>.max() = maxOrNull()!!
 fun String.sorted() = toSortedSet().joinToString("")
 
 fun Char.toAsciiInt() = Character.getNumericValue(this)
-
-fun <T> List<T>.getAdjacents(point: Point, width: Int, includeDiagonal: Boolean = false): List<T> {
-    val (x, y) = point
-
-    val diagonals = listOfNotNull(
-        this.getAt(x - 1, y - 1, width),
-        this.getAt(x + 1, y - 1, width),
-        this.getAt(x - 1, y + 1, width),
-        this.getAt(x + 1, y + 1, width),
-    )
-    val horizontalVerticals = listOfNotNull(
-        this.getAt(x, y - 1, width),
-        this.getAt(x - 1, y, width),
-        this.getAt(x + 1, y, width),
-        this.getAt(x, y + 1, width),
-    )
-
-    return if (includeDiagonal) {
-        diagonals + horizontalVerticals
-    } else {
-        diagonals
-    }
-}
 
 fun <T> List<T>.getAt(x: Int, y: Int, width: Int): T? {
     return if (x < 0 || x >= width || y < 0 || y >= width) {

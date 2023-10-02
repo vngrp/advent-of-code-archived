@@ -3,6 +3,28 @@
 //import Day
 //import chop
 //import java.io.File
+//fun <T> List<T>.getAdjacents(point: Point, width: Int, includeDiagonal: Boolean = false): List<T> {
+//    val (x, y) = point
+//
+//    val diagonals = listOfNotNull(
+//        this.getAt(x - 1, y - 1, width),
+//        this.getAt(x + 1, y - 1, width),
+//        this.getAt(x - 1, y + 1, width),
+//        this.getAt(x + 1, y + 1, width),
+//    )
+//    val horizontalVerticals = listOfNotNull(
+//        this.getAt(x, y - 1, width),
+//        this.getAt(x - 1, y, width),
+//        this.getAt(x + 1, y, width),
+//        this.getAt(x, y + 1, width),
+//    )
+//
+//    return if (includeDiagonal) {
+//        diagonals + horizontalVerticals
+//    } else {
+//        diagonals
+//    }
+//}
 //
 //data class Point(val x: Int, val y: Int) {
 //    constructor(pair: Pair<Int, Int>) : this(pair.first, pair.second)
