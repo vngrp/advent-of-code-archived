@@ -8,8 +8,9 @@ import kotlinx.datetime.LocalTime.Companion.parse
 
 fun main() {
     val competitiveRange = parse("05:45:00")..parse("07:00:00")
+    val focus = true
 
-    if (time() in competitiveRange) {
+    if (time() in competitiveRange || focus) {
         Day1.solve(3, 2)
     } else {
         AoC2018.saveChristmas()
@@ -39,10 +40,10 @@ abstract class Day<T>(val day: Int = 0, val year: Int = 0) {
     abstract fun part2(input: T): Number
 
     fun solve(example1: Number, example2: Number) {
-        require(part1(parse(testInput)) == example1)
+        assert(part1(parse(testInput)) == example1)
         println(part1(parse(input)))
 
-        require(part2(parse(testInput)) == example2)
+        assert(part2(parse(testInput)) == example2)
         println(part2(parse(input)))
     }
 }

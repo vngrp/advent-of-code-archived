@@ -1,6 +1,7 @@
 package com.vngrp
 
 import java.io.File
+import java.lang.IllegalArgumentException
 import kotlin.reflect.KClass
 import kotlinx.datetime.Clock
 import kotlinx.datetime.TimeZone
@@ -11,7 +12,7 @@ import kotlinx.datetime.toLocalDateTime
  * Credits: Heavily inspired by
  * https://github.com/Zordid/adventofcode-kotlin-2022/blob/21e3e3a432a0bf4a6b56b54e1d8bd87be5f4a7cb/src/main/kotlin/AdventOfCode.kt
  */
-fun File.parseInts() = readLines().mapNotNull { """(-?\d+)""".toRegex().matchEntire(it)?.groups?.get(1)?.value?.toInt() }
+fun File.parseInts() = readLines().map { it.toInt() }
 
 fun <T> String.chop(delimiter: String, transform: (from: String) -> T): Pair<T, T> {
     val (from, to) = split(delimiter)
@@ -63,3 +64,9 @@ fun <T> Int.repeat(initialState: T, fold: (acc: T) -> T): T {
 
 val KClass<AdventOfCode>.editions
     get() = sealedSubclasses.mapNotNull { it.objectInstance }
+
+fun <T : Any> assert(some: T, other: T) {
+    if (some != other) {
+        throw IllegalArgumentException("Expected $some to equal $other.")
+    }
+}
