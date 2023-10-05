@@ -9,10 +9,27 @@ import kotlinx.datetime.toLocalDateTime
 
 /**
  * Extension functions for parsing files into useful data structures.
- * Credits: Heavily inspired by
+ * Inspired by
  * https://github.com/Zordid/adventofcode-kotlin-2022/blob/21e3e3a432a0bf4a6b56b54e1d8bd87be5f4a7cb/src/main/kotlin/AdventOfCode.kt
  */
 fun File.parseInts() = readLines().map { it.toInt() }
+
+fun <T> List<T>.chunked(predicate: (T) -> Boolean) = fold(emptyList<List<T>>()) { chunks, element ->
+    if (predicate(element)) {
+        val last = chunks.lastOrNull() ?: emptyList()
+        val rest = chunks.dropLast(1)
+
+        rest + listOf(last + element)
+    } else {
+        chunks + emptyList()
+    }
+}
+
+/*
+    [
+
+    ]
+ */
 
 fun <T> String.chop(delimiter: String, transform: (from: String) -> T): Pair<T, T> {
     val (from, to) = split(delimiter)
@@ -42,9 +59,6 @@ fun Map<Int, Long>.merge(other: Map<Int, Long>): Map<Int, Long> {
         .groupBy({ it.key }, { it.value })
         .mapValues { it.value.sum() }
 }
-
-fun List<Int>.min() = minOrNull()!!
-fun List<Int>.max() = maxOrNull()!!
 
 fun String.sorted() = toSortedSet().joinToString("")
 
