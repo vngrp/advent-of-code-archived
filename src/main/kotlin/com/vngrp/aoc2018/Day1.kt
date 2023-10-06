@@ -1,4 +1,4 @@
-package com.vngrp.aoc2018.puzzles
+package com.vngrp.aoc2018
 
 import com.vngrp.Day
 import java.io.File

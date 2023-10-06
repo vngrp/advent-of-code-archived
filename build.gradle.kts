@@ -21,3 +21,9 @@ dependencies {
 application {
     mainClass.set("$group.AdventOfCodeKt")
 }
+
+tasks.compileKotlin {
+    kotlinOptions {
+        freeCompilerArgs = freeCompilerArgs + "-Xcontext-receivers"
+    }
+}

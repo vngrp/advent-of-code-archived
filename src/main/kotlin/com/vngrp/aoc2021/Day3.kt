@@ -1,4 +1,4 @@
-package com.vngrp.aoc2021.puzzles
+package com.vngrp.aoc2021
 
 import com.vngrp.Day
 import java.io.File
@@ -29,8 +29,8 @@ object Day3: Day<BitMap>(3, 2021) {
     }
 
     override fun part2(input: BitMap): Number {
-        val oxygenGeneratorRating = findRating(input, ::mostCommonBit)
-        val co2ScrubberRating = findRating(input, ::leastCommonBit)
+        val oxygenGeneratorRating = findRating(input, Day3::mostCommonBit)
+        val co2ScrubberRating = findRating(input, Day3::leastCommonBit)
 
         return oxygenGeneratorRating * co2ScrubberRating
     }

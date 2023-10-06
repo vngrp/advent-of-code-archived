@@ -1,4 +1,4 @@
-//package com.vngrp.aoc2021.puzzles
+package com.vngrp.aoc2021//package com.vngrp.aoc2021.puzzles
 //
 //import GDay
 //import java.io.File

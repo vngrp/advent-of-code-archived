@@ -1,4 +1,4 @@
-package com.vngrp.aoc2017.puzzles
+package com.vngrp.aoc2017
 
 import com.vngrp.Day
 import com.vngrp.toAsciiInt
@@ -12,5 +12,5 @@ object Day1 : Day<List<Int>>(1, 2017) {
         .filter { it.first == it.second }
         .sumOf { it.first }
 
-    override fun part2(input: List<Int>) = input.first()
+    override fun part2(input: List<Int>) = throw NotImplementedError()
 }

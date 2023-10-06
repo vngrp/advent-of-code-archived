@@ -1,12 +1,9 @@
 package com.vngrp
 
 import java.io.File
-import java.lang.IllegalArgumentException
-import kotlin.reflect.KClass
-import kotlinx.collections.immutable.PersistentList
-import kotlinx.collections.immutable.persistentListOf
-import kotlinx.collections.immutable.toPersistentList
+import kotlin.reflect.jvm.jvmName
 import kotlinx.datetime.Clock
+import kotlinx.datetime.LocalTime.Companion.parse
 import kotlinx.datetime.TimeZone
 import kotlinx.datetime.toLocalDateTime
 
@@ -16,6 +13,7 @@ import kotlinx.datetime.toLocalDateTime
  * https://github.com/Zordid/adventofcode-kotlin-2022/blob/21e3e3a432a0bf4a6b56b54e1d8bd87be5f4a7cb/src/main/kotlin/AdventOfCode.kt
  */
 fun File.parseInts() = readLines().map { it.toInt() }
+fun File.parseChars() = readText().toCharArray().toList()
 
 fun <T> List<T>.chunked(predicate: (T) -> Boolean) = fold(listOf<List<T>>()) { chunks, element ->
     if (predicate(element)) {
@@ -27,19 +25,6 @@ fun <T> List<T>.chunked(predicate: (T) -> Boolean) = fold(listOf<List<T>>()) { c
     }
 }
 
-fun <T> String.chop(delimiter: String, transform: (from: String) -> T): Pair<T, T> {
-    val (from, to) = split(delimiter)
-
-    return transform(from) to transform(to)
-}
-
-fun time() = Clock.System.now().toLocalDateTime(TimeZone.currentSystemDefault()).time
-
-val Day<*>.input
-    get() = File("src/main/kotlin/com/vngrp/aoc$year/input/day$day.txt")
-val Day<*>.testInput
-    get() = File("src/main/kotlin/com/vngrp/aoc$year/input/test-day$day.txt")
-
 fun <T> List<T>.replace(old: T, new: T): List<T> {
     val index = indexOf(old)
     if (index < 0) return this
@@ -50,16 +35,6 @@ fun <T> List<T>.replace(old: T, new: T): List<T> {
     return list
 }
 
-fun Map<Int, Long>.merge(other: Map<Int, Long>): Map<Int, Long> {
-    return (asSequence() + other.asSequence())
-        .groupBy({ it.key }, { it.value })
-        .mapValues { it.value.sum() }
-}
-
-fun String.sorted() = toSortedSet().joinToString("")
-
-fun Char.toAsciiInt() = Character.getNumericValue(this)
-
 fun <T> List<T>.getAt(x: Int, y: Int, width: Int): T? {
     return if (x < 0 || x >= width || y < 0 || y >= width) {
         null
@@ -68,16 +43,54 @@ fun <T> List<T>.getAt(x: Int, y: Int, width: Int): T? {
     }
 }
 
+fun <T> String.chop(delimiter: String, transform: (from: String) -> T): Pair<T, T> {
+    val (from, to) = split(delimiter)
+
+    return transform(from) to transform(to)
+}
+fun String.sorted() = toSortedSet().joinToString("")
+
+fun time() = Clock.System.now().toLocalDateTime(TimeZone.currentSystemDefault()).time
+
+fun Map<Int, Long>.merge(other: Map<Int, Long>): Map<Int, Long> {
+    return (asSequence() + other.asSequence())
+        .groupBy({ it.key }, { it.value })
+        .mapValues { it.value.sum() }
+}
+
+fun Char.toAsciiInt() = Character.getNumericValue(this)
+
 fun <T> Int.repeat(initialState: T, fold: (acc: T) -> T): T {
     return (0 until this).fold(initialState) { acc, _ -> fold(acc) }
 }
 
-val KClass<AdventOfCode>.editions
-    get() = sealedSubclasses.mapNotNull { it.objectInstance }
-
 data class IncorrectAlgorithmException(val actual: String, val expected: String) : Exception("Expected $expected to equal $actual.")
-fun <T : Any> assert(expected: T, actual: T) {
-    if (expected != actual) {
-        throw IncorrectAlgorithmException(expected.toString(), actual.toString())
+infix fun <T> T.validate(actual: T) {
+    if (this != actual) {
+        throw IncorrectAlgorithmException(this.toString(), actual.toString())
     }
 }
+
+// Beautifully ugly hacks to make the Day and Advent of Code templates a bit prettier
+val <T> ((T) -> Number).number
+    get() = this::class.jvmName.last().toAsciiInt()
+
+infix fun Number.then(block: (answer: Number) -> Unit) = block(this)
+
+context(Day<*>)
+fun <T>((T) -> Number).printAnswer() =
+    fun(answer: Number) { println("Day $day.${this.number}: $answer") }
+
+context(Day<*>)
+fun <T>((T) -> Number).printNotImplemented() = println("Day $day.${this.number} is not yet implemented")
+
+context(Day<*>)
+fun <T>((T) -> Number).printIncorrectAlgorithm(expected: String, actual: String) =
+    println("Day $day.${this.number} is incorrect, expected $expected, got $actual")
+
+val Day<*>.input
+    get() = File("src/main/kotlin/com/vngrp/aoc$year/input/day$day.txt")
+val Day<*>.exampleInput
+    get() = File("src/main/kotlin/com/vngrp/aoc$year/input/test-day$day.txt")
+
+fun time(time: String) = parse(time)
