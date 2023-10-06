@@ -15,13 +15,6 @@ object Day1 : Day<CalorieInventories>(1, 2022) {
                 it.map(String::toInt)
             }
 
-    override fun part1(input: CalorieInventories): Number {
-        println(input)
-
-        return 5
-    }
-
-    override fun part2(input: CalorieInventories): Number {
-        TODO("Not yet implemented")
-    }
+    override fun part1(input: CalorieInventories) = input.maxOf { it.sum() }
+    override fun part2(input: CalorieInventories) = input.map { it.sum() }.sortedDescending().take(3).sum()
 }

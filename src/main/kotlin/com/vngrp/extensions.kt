@@ -3,6 +3,9 @@ package com.vngrp
 import java.io.File
 import java.lang.IllegalArgumentException
 import kotlin.reflect.KClass
+import kotlinx.collections.immutable.PersistentList
+import kotlinx.collections.immutable.persistentListOf
+import kotlinx.collections.immutable.toPersistentList
 import kotlinx.datetime.Clock
 import kotlinx.datetime.TimeZone
 import kotlinx.datetime.toLocalDateTime
@@ -14,22 +17,15 @@ import kotlinx.datetime.toLocalDateTime
  */
 fun File.parseInts() = readLines().map { it.toInt() }
 
-fun <T> List<T>.chunked(predicate: (T) -> Boolean) = fold(emptyList<List<T>>()) { chunks, element ->
+fun <T> List<T>.chunked(predicate: (T) -> Boolean) = fold(listOf<List<T>>()) { chunks, element ->
     if (predicate(element)) {
         val last = chunks.lastOrNull() ?: emptyList()
-        val rest = chunks.dropLast(1)
 
-        rest + listOf(last + element)
+        chunks.dropLast(1) + listOf(last + element)
     } else {
-        chunks + emptyList()
+        chunks + listOf(emptyList())
     }
 }
-
-/*
-    [
-
-    ]
- */
 
 fun <T> String.chop(delimiter: String, transform: (from: String) -> T): Pair<T, T> {
     val (from, to) = split(delimiter)
@@ -79,8 +75,9 @@ fun <T> Int.repeat(initialState: T, fold: (acc: T) -> T): T {
 val KClass<AdventOfCode>.editions
     get() = sealedSubclasses.mapNotNull { it.objectInstance }
 
-fun <T : Any> assert(some: T, other: T) {
-    if (some != other) {
-        throw IllegalArgumentException("Expected $some to equal $other.")
+data class IncorrectAlgorithmException(val actual: String, val expected: String) : Exception("Expected $expected to equal $actual.")
+fun <T : Any> assert(expected: T, actual: T) {
+    if (expected != actual) {
+        throw IncorrectAlgorithmException(expected.toString(), actual.toString())
     }
 }
