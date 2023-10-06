@@ -5,7 +5,7 @@ import AdventOfCode
 object AdventOfCode2019 : AdventOfCode {
     override val year: Int = 2019
 
-    override fun saveChristmas() {
+    override fun solvePuzzles() {
         
     }
 }

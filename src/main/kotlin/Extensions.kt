@@ -1,3 +1,12 @@
+import aoc2015.AdventOfCode2015
+import aoc2016.AdventOfCode2016
+import aoc2017.AdventOfCode2017
+import aoc2018.AdventOfCode2018
+import aoc2019.AdventOfCode2019
+import aoc2020.AdventOfCode2020
+import aoc2021.AdventOfCode2021
+import aoc2022.AdventOfCode2022
+import aoc2023.AdventOfCode2023
 import java.io.File
 import kotlin.reflect.jvm.jvmName
 import kotlinx.datetime.Clock
@@ -95,3 +104,15 @@ val Day<*>.exampleInput
     get() = File("src/main/kotlin/aoc$year/input/test-day$day.txt")
 
 fun time(time: String) = parse(time)
+
+val adventOfCodeEditions = listOf(
+    AdventOfCode2015,
+    AdventOfCode2016,
+    AdventOfCode2017,
+    AdventOfCode2018,
+    AdventOfCode2019,
+    AdventOfCode2020,
+    AdventOfCode2021,
+    AdventOfCode2022,
+    AdventOfCode2023,
+)
