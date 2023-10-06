@@ -89,12 +89,12 @@ fun <T>((T) -> Number).printAnswer() = fun(answer: Number) {
     println("Day $day.${this.number}: $answer")
 }
 
-context(Day<*>)
-fun <T>((T) -> Number).printNotImplemented() = println("Day $day.${this.number} is not yet implemented")
+context(Day<*>, (T) -> Number)
+fun <T> NotImplementedError.printNotImplemented() = println("Day $day.$number is not yet implemented")
 
-context(Day<*>)
-fun <T>((T) -> Number).printIncorrectAlgorithm(expected: String, actual: String) =
-    println("Day $day.${this.number} is incorrect, expected $expected, got $actual")
+context(Day<*>, (T) -> Number)
+fun <T> IncorrectAlgorithmException.printIncorrectAlgorithm() =
+    println("Day $day.$number is incorrect, expected $expected, got $actual")
 
 fun AdventOfCode.printYear() = println("\nAdvent of Code $year")
 

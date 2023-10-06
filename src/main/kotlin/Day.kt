@@ -14,10 +14,8 @@ abstract class Day<T>(val day: Int = 0, val year: Int = 0) {
         try {
             part(parse(exampleInput)) validate exampleAnswer
             part(parse(input)) then printAnswer()
-        } catch (e: NotImplementedError) {
-            printNotImplemented()
-        } catch (e: IncorrectAlgorithmException) {
-            printIncorrectAlgorithm(e.expected, e.actual)
         }
+        catch (e: NotImplementedError) { e.printNotImplemented() }
+        catch (e: IncorrectAlgorithmException) { e.printIncorrectAlgorithm() }
     }
 }
