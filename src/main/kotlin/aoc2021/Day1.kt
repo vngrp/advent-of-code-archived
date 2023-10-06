@@ -10,8 +10,7 @@ import parseInts
  * Puzzle 2: https://github.com/SebastianAigner/advent-of-code-2021/blob/master/src/main/kotlin/Day01.kt
  */
 object Day1: Day<List<Int>>(1, 2021) {
-    override fun parse(input: File) = input.parseInts()
-
+    override fun parse() = ::parseInts
     override fun part1(input: List<Int>) = input
         .zipWithNext()
         .count { (previous, current) -> current > previous }

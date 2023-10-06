@@ -4,9 +4,11 @@ import Day
 import parseChars
 import java.io.File
 
-object Day1 : Day<List<Char>>(1, 2015) {
-    override fun parse(input: File) = input.parseChars()
-    override fun part1(input: List<Char>) = input.sumOf {
+typealias Floors = List<Char>
+
+object Day1 : Day<Floors>(1, 2015) {
+    override fun parse() = ::parseChars
+    override fun part1(input: Floors) = input.sumOf {
         when (it) {
             '(' -> 1L
             ')' -> -1L
@@ -14,5 +16,5 @@ object Day1 : Day<List<Char>>(1, 2015) {
         }
     }
 
-    override fun part2(input: List<Char>) = TODO()
+    override fun part2(input: Floors) = TODO()
 }

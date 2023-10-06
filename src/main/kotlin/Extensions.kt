@@ -19,8 +19,14 @@ import kotlinx.datetime.toLocalDateTime
  * Inspired by
  * https://github.com/Zordid/adventofcode-kotlin-2022/blob/21e3e3a432a0bf4a6b56b54e1d8bd87be5f4a7cb/src/main/kotlin/AdventOfCode.kt
  */
-fun File.parseInts() = readLines().map { it.toInt() }
-fun File.parseChars() = readText().toCharArray().toList()
+fun parseInts(file: File) = file.readLines().map { it.toInt() }
+fun parseChars(file: File) = file.readText().toCharArray().toList()
+fun parseBits(file: File) = file.readLines().map { it.map { char -> char == '1' } }
+fun parseGroups(file: File, predicate: (String) -> Boolean) = file.readLines().chunked { predicate(it) }
+
+fun List<String>.parseInts() = map { it.toInt() }
+fun String.parseChars() = toCharArray().toList()
+fun List<String>.parseBits() = map { it.map { char -> char == '1' } }
 
 fun <T> List<T>.chunked(predicate: (T) -> Boolean) = fold(listOf<List<T>>()) { chunks, element ->
     if (predicate(element)) {
@@ -84,26 +90,29 @@ val <T> ((T) -> Number).number
 
 infix fun Number.then(block: (answer: Number) -> Unit) = block(this)
 
-context(Day<*>)
+context(Day<T>)
 fun <T>((T) -> Number).printAnswer() = fun(answer: Number) {
     println("Day $day.${this.number}: $answer")
 }
 
-context(Day<*>, (T) -> Number)
+context(Day<T>, (T) -> Number)
 fun <T> NotImplementedError.printNotImplemented() = println("Day $day.$number is not yet implemented")
 
-context(Day<*>, (T) -> Number)
+context(Day<T>, (T) -> Number)
 fun <T> IncorrectAlgorithmException.printIncorrectAlgorithm() =
     println("Day $day.$number is incorrect, expected $expected, got $actual")
 
 fun AdventOfCode.printYear() = println("\nAdvent of Code $year")
 
-val Day<*>.input
+val Day<*>.actualInput
     get() = File("src/main/kotlin/aoc$year/input/day$day.txt")
 val Day<*>.exampleInput
     get() = File("src/main/kotlin/aoc$year/input/test-day$day.txt")
 
 fun time(time: String) = parse(time)
+
+context((T) -> Number, Day<T>)
+fun <T> solve(input: File): Number = invoke(parse()(input))
 
 val adventOfCodeEditions = listOf(
     AdventOfCode2015,

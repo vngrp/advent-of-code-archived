@@ -10,14 +10,7 @@ private data class AimedPosition(val depth: Int, val horizontal: Int, val aim: I
 private data class Position(val depth: Int, val horizontal: Int)
 
 object Day2: Day<List<Command>>(2, 2021) {
-
-    override fun parse(input: File) = input
-        .readLines()
-        .map { it.split(' ') }
-        .map { (instruction, amount) ->
-            Command(instruction, amount.toInt())
-        }
-
+    override fun parse() = ::parseCommands
     override fun part2(input: List<Command>) = input
         .fold(AimedPosition(0, 0, 0)) { values, (direction, amount) ->
             when (Direction.valueOf(direction.uppercase())) {
@@ -44,5 +37,12 @@ object Day2: Day<List<Command>>(2, 2021) {
         }
         .let {
             it.depth * it.horizontal
+        }
+
+    private fun parseCommands(input: File) = input
+        .readLines()
+        .map { it.split(' ') }
+        .map { (instruction, amount) ->
+            Command(instruction, amount.toInt())
         }
 }

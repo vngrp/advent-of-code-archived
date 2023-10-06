@@ -34,16 +34,7 @@ data class BingoBoard(val rows: List<List<BingoNumber>>, val columns: List<List<
 }
 
 object Day4: Day<BoardsAndDrawnNumbers>(4, 2021) {
-    override fun parse(input: File): Pair<List<String>, List<BingoNumber>> = input
-        .readLines()
-        .let { lines ->
-            lines to lines
-                .first()
-                .split(",")
-                .map { BingoNumber(it.toInt()) }
-        }
-
-
+    override fun parse() = ::parseBoardsAndDrawnNumbers
     override fun part1(input: BoardsAndDrawnNumbers) = 6//input(::quickestBoardStrategy)
     override fun part2(input: BoardsAndDrawnNumbers) = 5//input(::slowestBoardStrategy)
 
@@ -64,6 +55,15 @@ object Day4: Day<BoardsAndDrawnNumbers>(4, 2021) {
 //
 //        return sumOfUnmarked * numberThatGaveBingo.value
 //    }
+
+    private fun parseBoardsAndDrawnNumbers(input: File) = input
+        .readLines()
+        .let { lines ->
+            lines to lines
+                .first()
+                .split(",")
+                .map { BingoNumber(it.toInt()) }
+        }
 }
 
 fun quickestBoardStrategy(boards: List<BingoBoard>): BingoBoard {

@@ -1,7 +1,7 @@
 package aoc2021
 
 import Day
-import java.io.File
+import parseBits
 
 typealias Bit = Boolean
 typealias BitMap = List<List<Bit>>
@@ -18,8 +18,7 @@ fun List<Bit>.toInt(): Int {
 }
 
 object Day3: Day<BitMap>(3, 2021) {
-    override fun parse(input: File) = input.readLines().map { it.map { char -> char == '1' } }
-
+    override fun parse() = ::parseBits
     override fun part1(input: BitMap): Number {
         val rowLength = 0 until input.first().size
         val gamma = rowLength.map { mostCommonBit(it, input) }
