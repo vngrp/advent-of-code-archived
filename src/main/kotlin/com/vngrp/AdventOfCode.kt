@@ -9,9 +9,9 @@ import com.vngrp.aoc2022.AdventOfCode2022
 
 fun main() {
     val competitiveRange = time("05:45:00")..time("07:00:00")
-    val focus = false
+    val inFocusMode = false
 
-    if (time() in competitiveRange || focus) {
+    if (time() in competitiveRange || inFocusMode) {
         Day1.solve(-1, 5)
     } else {
         adventOfCodeEditions.forEach {
