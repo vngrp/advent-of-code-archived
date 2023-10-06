@@ -65,13 +65,13 @@ fun <T> Int.repeat(initialState: T, fold: (acc: T) -> T): T {
 }
 
 data class IncorrectAlgorithmException(val actual: String, val expected: String) : Exception("Expected $expected to equal $actual.")
-infix fun <T> T.validate(actual: T) {
-    if (this != actual) {
+infix fun <T : Number> T.validate(actual: T) {
+    if (this.toLong() != actual.toLong()) {
         throw IncorrectAlgorithmException(this.toString(), actual.toString())
     }
 }
 
-// Beautifully ugly hacks to make the Day and Advent of Code templates a bit prettier
+// Beautifully ugly hacks to make the Day and Advent of Code templates prettier
 val <T> ((T) -> Number).number
     get() = this::class.jvmName.last().toAsciiInt()
 

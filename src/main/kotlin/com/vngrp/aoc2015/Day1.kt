@@ -14,7 +14,5 @@ object Day1 : Day<List<Char>>(1, 2015) {
         }
     }
 
-    override fun part2(input: List<Char>): Number {
-        TODO("Not yet implemented")
-    }
+    override fun part2(input: List<Char>) = TODO()
 }

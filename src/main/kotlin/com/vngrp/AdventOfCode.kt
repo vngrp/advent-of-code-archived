@@ -9,10 +9,10 @@ import com.vngrp.aoc2022.AdventOfCode2022
 
 fun main() {
     val competitiveRange = time("05:45:00")..time("07:00:00")
-    val focus = true
+    val focus = false
 
     if (time() in competitiveRange || focus) {
-        Day1.solve(-3, 45000)
+        Day1.solve(-1, 5)
     } else {
         adventOfCodeEditions.forEach {
             it.printYear()

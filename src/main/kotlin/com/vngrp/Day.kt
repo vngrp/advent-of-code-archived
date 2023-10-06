@@ -13,7 +13,7 @@ abstract class Day<T>(val day: Int = 0, val year: Int = 0) {
     }
 
     private fun solve(part: (T) -> Number, exampleAnswer: Number) = try {
-        part(parse(exampleInput)).also { println("equals: ${part(parse(exampleInput))} & $exampleAnswer: ${part(parse(exampleInput)) == exampleAnswer}") } validate exampleAnswer
+        part(parse(exampleInput)) validate exampleAnswer
         part(parse(input)) then part.printAnswer()
     } catch (e: NotImplementedError) {
         part.printNotImplemented()
