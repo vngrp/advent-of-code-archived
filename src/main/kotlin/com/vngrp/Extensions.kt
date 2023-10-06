@@ -89,6 +89,8 @@ context(Day<*>)
 fun <T>((T) -> Number).printIncorrectAlgorithm(expected: String, actual: String) =
     println("Day $day.${this.number} is incorrect, expected $expected, got $actual")
 
+fun AdventOfCode.printYear() = println("\nAdvent of Code $year")
+
 val Day<*>.input
     get() = File("src/main/kotlin/com/vngrp/aoc$year/input/day$day.txt")
 val Day<*>.exampleInput
