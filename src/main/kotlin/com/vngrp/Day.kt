@@ -12,12 +12,14 @@ abstract class Day<T>(val day: Int = 0, val year: Int = 0) {
         solve(::part2, exampleAnswer2)
     }
 
-    private fun solve(part: (T) -> Number, exampleAnswer: Number) = try {
-        part(parse(exampleInput)) validate exampleAnswer
-        part(parse(input)) then part.printAnswer()
-    } catch (e: NotImplementedError) {
-        part.printNotImplemented()
-    } catch (e: IncorrectAlgorithmException) {
-        part.printIncorrectAlgorithm(e.expected, e.actual)
+    private fun solve(part: (T) -> Number, exampleAnswer: Number) = with(part) {
+        try {
+            part(parse(exampleInput)) validate exampleAnswer
+            part(parse(input)) then printAnswer()
+        } catch (e: NotImplementedError) {
+            printNotImplemented()
+        } catch (e: IncorrectAlgorithmException) {
+            printIncorrectAlgorithm(e.expected, e.actual)
+        }
     }
 }

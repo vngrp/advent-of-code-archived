@@ -78,8 +78,9 @@ val <T> ((T) -> Number).number
 infix fun Number.then(block: (answer: Number) -> Unit) = block(this)
 
 context(Day<*>)
-fun <T>((T) -> Number).printAnswer() =
-    fun(answer: Number) { println("Day $day.${this.number}: $answer") }
+fun <T>((T) -> Number).printAnswer() = fun(answer: Number) {
+    println("Day $day.${this.number}: $answer")
+}
 
 context(Day<*>)
 fun <T>((T) -> Number).printNotImplemented() = println("Day $day.${this.number} is not yet implemented")
