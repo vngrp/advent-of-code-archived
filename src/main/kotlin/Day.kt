@@ -12,8 +12,8 @@ abstract class Day<T>(val day: Int = 0, val year: Int = 0) {
 
     private fun solve(part: (T) -> Number, exampleAnswer: Number) = with(part) {
         try {
-            part(parse(exampleInput)) validate exampleAnswer
-            part(parse(input)) then printAnswer()
+            invoke(parse(exampleInput)) validate exampleAnswer
+            invoke(parse(input)) then printAnswer()
         }
         catch (e: NotImplementedError) { e.printNotImplemented() }
         catch (e: IncorrectAlgorithmException) { e.printIncorrectAlgorithm() }
