@@ -1,4 +1,3 @@
-import aoc2018.Day1
 import arrow.fx.coroutines.parMap
 import kotlinx.coroutines.runBlocking
 

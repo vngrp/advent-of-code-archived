@@ -88,12 +88,12 @@ infix fun <T : Number> T.validate(actual: T) {
 val <T> ((T) -> Number).number
     get() = this::class.jvmName.last().toAsciiInt()
 
-infix fun Number.then(block: (answer: Number) -> Unit) = block(this)
+infix fun <T, U> T.then(block: (answer: T) -> U) = block(this)
 
 context(Day<T>)
-fun <T>((T) -> Number).printAnswer() = fun(answer: Number) {
-    println("Day $day.${this.number}: $answer")
-}
+fun <T> ((T) -> Number).printAnswer() =
+    fun(answer: Number) =
+        println("Day $day.${this.number}: $answer")
 
 context(Day<T>, (T) -> Number)
 fun <T> NotImplementedError.printNotImplemented() = println("Day $day.$number is not yet implemented")

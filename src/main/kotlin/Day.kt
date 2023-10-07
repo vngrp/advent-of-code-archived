@@ -5,14 +5,14 @@ abstract class Day<T>(val day: Int = 0, val year: Int = 0) {
     abstract fun part1(input: T): Number
     abstract fun part2(input: T): Number
 
-    fun solve(exampleAnswer1: Number, exampleAnswer2: Number) {
-        solve(::part1, exampleAnswer1)
-        solve(::part2, exampleAnswer2)
+    fun solve(example1: Number, example2: Number) {
+        solve(::part1, example1)
+        solve(::part2, example2)
     }
 
-    private fun solve(part: (T) -> Number, exampleAnswer: Number) = with(part) {
+    private fun solve(part: (T) -> Number, example: Number) = with(part) {
         try {
-            solve(exampleInput) validate exampleAnswer
+            solve(exampleInput) validate example
             solve(actualInput) then printAnswer()
         }
         catch (e: NotImplementedError) { e.printNotImplemented() }
