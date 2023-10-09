@@ -43,8 +43,59 @@ operator fun String.component6() = drop(5).first()
 /**
  * Helpful data representations
  */
-data class Point(val x: Int, val y: Int) {
+enum class Cardinal { NORTH, EAST, SOUTH, WEST }
+enum class Direction { LEFT, RIGHT, UP, DOWN }
+data class Point(val x: Int, val y: Int, val orientation: Cardinal = Cardinal.NORTH) {
     constructor(pair: Pair<Int, Int>) : this(pair.first, pair.second)
+
+    fun move(cardinal: Cardinal, distance: Int) = when (cardinal) {
+        Cardinal.NORTH -> Point(x, y - distance, orientation)
+        Cardinal.SOUTH -> Point(x, y + distance, orientation)
+        Cardinal.WEST -> Point(x - distance, y, orientation)
+        Cardinal.EAST -> Point(x + distance, y, orientation)
+    }
+
+    fun move(direction: Direction, distance: Int) = when (direction) {
+        Direction.UP -> Point(x, y - distance, orientation)
+        Direction.DOWN -> Point(x, y + distance, orientation)
+        Direction.LEFT -> Point(x - distance, y, orientation)
+        Direction.RIGHT -> Point(x + distance, y, orientation)
+    }
+
+    fun move(orientation: Cardinal, direction: Direction, distance: Int) = when (orientation) {
+        Cardinal.NORTH -> when (direction) {
+            Direction.LEFT -> Point(x - distance, y, Cardinal.WEST)
+            Direction.RIGHT -> Point(x + distance, y, Cardinal.EAST)
+            Direction.UP -> Point(x, y - distance, Cardinal.NORTH)
+            Direction.DOWN -> Point(x, y + distance, Cardinal.SOUTH)
+        }
+        Cardinal.SOUTH -> when (direction) {
+            Direction.LEFT -> Point(x + distance, y, Cardinal.EAST)
+            Direction.RIGHT -> Point(x - distance, y, Cardinal.WEST)
+            Direction.UP -> Point(x, y + distance, Cardinal.SOUTH)
+            Direction.DOWN -> Point(x, y - distance, Cardinal.NORTH)
+        }
+        Cardinal.WEST -> when (direction) {
+            Direction.LEFT -> Point(x, y + distance, Cardinal.SOUTH)
+            Direction.RIGHT -> Point(x, y - distance, Cardinal.NORTH)
+            Direction.UP -> Point(x - distance, y, Cardinal.WEST)
+            Direction.DOWN -> Point(x + distance, y, Cardinal.EAST)
+        }
+        Cardinal.EAST -> when (direction) {
+            Direction.LEFT -> Point(x, y - distance, Cardinal.NORTH)
+            Direction.RIGHT -> Point(x, y + distance, Cardinal.SOUTH)
+            Direction.UP -> Point(x + distance, y, Cardinal.EAST)
+            Direction.DOWN -> Point(x - distance, y, Cardinal.WEST)
+        }
+    }
+}
+
+fun Char.toDirection() = when (this) {
+    'L' -> Direction.LEFT
+    'R' -> Direction.RIGHT
+    'U' -> Direction.UP
+    'D' -> Direction.DOWN
+    else -> throw Error("Invalid direction: $this")
 }
 
 fun <T> List<T>.chunked(predicate: (T) -> Boolean) = fold(listOf<List<T>>()) { chunks, element ->

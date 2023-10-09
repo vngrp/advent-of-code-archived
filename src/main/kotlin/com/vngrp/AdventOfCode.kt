@@ -11,8 +11,9 @@ fun main(): Unit = runBlocking {
     if (time() in competitiveRange || inFocusMode) {
         Day1.solve(12, 0)
     } else {
-        adventOfCodeEditions
-            .parMap { it.saveChristmas() }
+        adventOfCodeEditions.parMap {
+            it.saveChristmas()
+        }
     }
 }
 
