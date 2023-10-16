@@ -12,10 +12,10 @@ abstract class Day<T>(val day: Int = 0, val year: Int = 0) {
         solve(::part2, example2)
     }
 
-    private fun solve(part: (T) -> Number, example: Number) = with(part) {
+    private fun solve(part: (T) -> Number, example: Number) = with(part, AsciiArtBuilder) {
         try {
             solve(exampleInput) validate example
-            solve(actualInput) then printAnswer()
+            solve(actualInput) then answer()
         }
         catch (e: NotImplementedError) { e.printNotImplemented() }
         catch (e: IncorrectAlgorithmException) { e.printIncorrectAlgorithm() }

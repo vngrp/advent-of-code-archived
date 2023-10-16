@@ -155,22 +155,33 @@ infix fun <T : Number> T.validate(actual: T) {
 }
 
 // Beautifully ugly hacks to make the Day and Advent of Code templates prettier
-val <T> ((T) -> Number).number
+val <T> ((T) -> Number).partNumber
     get() = this::class.jvmName.last().toAsciiInt()
 
-infix fun <T, U> T.then(block: (answer: T) -> U) = block(this)
+typealias Part<T> = (T) -> Number
+infix fun <T, U> T.then(block: (input: T) -> U) = block(this)
 
-context(Day<T>)
-fun <T> ((T) -> Number).printAnswer() =
+context(Day<T>, Part<T>, AsciiArtBuilder)
+fun <T> answer() =
     fun(answer: Number) =
-        println("Day $day.${this.number}: $answer")
+        draw(
+            year = year,
+            day = day,
+            part = partNumber,
+            answer = answer
+        )
+
+
+inline fun <T, R> with(vararg receivers: T, block: T.() -> R): R {
+    return context(receivers).block()
+}
 
 context(Day<T>, (T) -> Number)
-fun <T> NotImplementedError.printNotImplemented() = println("Day $day.$number is not yet implemented")
+fun <T> NotImplementedError.printNotImplemented() = println("Day $day.$partNumber is not yet implemented")
 
 context(Day<T>, (T) -> Number)
 fun <T> IncorrectAlgorithmException.printIncorrectAlgorithm() =
-    println("Day $day.$number is incorrect, expected $expected, got $actual")
+    println("Day $day.$partNumber is incorrect, expected $expected, got $actual")
 
 fun AdventOfCode.printYear() = println("\nAdvent of Code $year")
 

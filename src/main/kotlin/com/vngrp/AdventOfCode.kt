@@ -11,8 +11,10 @@ fun main(): Unit = runBlocking {
     if (time() in competitiveRange || inFocusMode) {
         Day1.solve(12, 0)
     } else {
-        adventOfCodeEditions.parMap {
-            it.saveChristmas()
+        with(AsciiArtBuilder) {
+            adventOfCodeEditions.parMap {
+                it.saveChristmas()
+            }
         }
     }
 }
